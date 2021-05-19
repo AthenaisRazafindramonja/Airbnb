@@ -32,7 +32,8 @@ export default function SignInScreen({ setToken }) {
       console.log(response.data);
       if (response.status === 200) {
         alert("You are connected");
-      } else if (error.response.status === 401) {
+      } else error.response.status === 401;
+      {
         setError("Email and/or password is wrong");
       }
     } catch (error) {
@@ -40,49 +41,45 @@ export default function SignInScreen({ setToken }) {
       setError("Unauthorized");
     }
   };
+
+  const navigation = useNavigation();
+  return (
+    <KeyboardAwareScrollView>
+      <View style={styles.header}>
+        <Image
+          style={styles.logo}
+          source={require("../assets/logo.png")}
+          resizeMode="contain"
+        />
+        <Text style={styles.title}>Sign in</Text>
+      </View>
+      <View style={styles.signIn}>
+        <TextInput style={styles.input} placeholder="Email" />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          secureTextEntry={true}
+        />
+        <TouchableOpacity
+          style={styles.btn}
+          title="Sign in"
+          onPress={handleSubmit}
+        >
+          <Text style={styles.btnText}>Sign in</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.btnRegister}
+          onPress={() => {
+            navigation.navigate("SignUp");
+          }}
+        >
+          <Text style={styles.txtRegister}>No account? Register</Text>
+        </TouchableOpacity>
+      </View>
+    </KeyboardAwareScrollView>
+  );
 }
-
-const navigation = useNavigation();
-return (
-  <KeyboardAwareScrollView>
-    <View style={styles.header}>
-      <Image
-        style={styles.logo}
-        source={require("../assets/logo.png")}
-        resizeMode="contain"
-      />
-      <Text style={styles.title}>Sign in</Text>
-    </View>
-    <View style={styles.signIn}>
-      <TextInput style={styles.input} placeholder="Email" />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        secureTextEntry={true}
-      />
-      <TouchableOpacity
-        style={styles.btn}
-        title="Sign in"
-        onPress={async () => {
-          const userToken = "secret-token";
-          setToken(userToken);
-        }}
-      >
-        <Text style={styles.btnText}>Sign in</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.btnRegister}
-        onPress={() => {
-          navigation.navigate("SignUp");
-        }}
-      >
-        <Text style={styles.txtRegister}>No account? Register</Text>
-      </TouchableOpacity>
-    </View>
-  </KeyboardAwareScrollView>
-);
-
 const styles = StyleSheet.create({
   header: {
     alignItems: "center",
