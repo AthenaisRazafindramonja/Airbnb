@@ -1,18 +1,37 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/core";
 import { Button, Text, View } from "react-native";
 
-export default function HomeScreen() {
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+
+const HomeScreen = () => {
   const navigation = useNavigation();
-  return (
+
+  const [data, setData] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://express-airbnb-api.herokuapp.com/rooms"
+        );
+        setData(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error.response);
+      }
+    };
+    fetchData();
+  }, []);
+  return isLoading ? (
     <View>
-      <Text>Welcome home!</Text>
-      <Button
-        title="Go to Profile"
-        onPress={() => {
-          navigation.navigate("Profile", { userId: 123 });
-        }}
-      />
+      <Text>Is loading...</Text>
     </View>
+  ) : (
+    <View></View>
   );
-}
+};
+
+export default HomeScreen;

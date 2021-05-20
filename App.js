@@ -19,9 +19,9 @@ export default function App() {
 
   const setToken = async (token) => {
     if (token) {
-      AsyncStorage.setItem("userToken", token);
+      await AsyncStorage.setItem("userToken", token);
     } else {
-      AsyncStorage.removeItem("userToken");
+      await AsyncStorage.removeItem("userToken");
     }
 
     setUserToken(token);
@@ -48,10 +48,10 @@ export default function App() {
         // No token found, user isn't signed in
         <Stack.Navigator>
           <Stack.Screen name="SignIn">
-            {() => <SignInScreen setToken={setToken} />}
+            {(props) => <SignInScreen {...props} setToken={setToken} />}
           </Stack.Screen>
           <Stack.Screen name="SignUp">
-            {() => <SignUpScreen setToken={setToken} />}
+            {(props) => <SignUpScreen {...props} setToken={setToken} />}
           </Stack.Screen>
         </Stack.Navigator>
       ) : (

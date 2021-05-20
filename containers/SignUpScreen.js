@@ -1,11 +1,11 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Button, Text, TextInput, View, Image, StyleSheet } from "react-native";
+import { Text, TextInput, View, Image, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-const SignUpScreen = ({ navigation }) => {
+const SignUpScreen = ({ navigation, setToken }) => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -33,7 +33,7 @@ const SignUpScreen = ({ navigation }) => {
           console.log(response.data);
 
           if (response.data.token) {
-            alert("You are connected !");
+            setToken(response.data.token);
           }
         } catch (error) {
           if (
